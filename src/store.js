@@ -39,6 +39,7 @@ export default (Vue) => {
         actions: {
             logout: ({commit}) => {
               commit('APP_LOGIN', null);
+              localStorage.removeItem("eventbrite_token");
             },
             loadOrganization: ({commit,state}) => {
                 return getEndpoint(`/users/me/organizations`, state).then(response=>{
@@ -56,7 +57,7 @@ export default (Vue) => {
             // eslint-disable-next-line no-unused-vars
             loadEvents: ({commit, state}) => {
                 const {organizationId} = state;
-                return getEndpoint(`/organizations/${organizationId}/events/`, state).then(data => {
+                return getEndpoint(`/organizations/${organizationId}/events/?expand=ticket_classes`, state).then(data => {
                     commit('SET_EVENTS', data.data.events);
                 }).catch(err => {
                     console.log(err);
