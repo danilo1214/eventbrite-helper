@@ -1,12 +1,34 @@
 <template>
   <div class="container">
-    <div v-for="event in events" :key="event.id">{{ event }}</div>
+    <div
+      class="card"
+      style="width: 18rem"
+      :key="event.id"
+      v-for="event in events"
+    >
+      <div class="card-body">
+        <h5 class="card-title">{{ event.name.text }}</h5>
+
+        <div class="d-flex">
+          <div class="p-2 txt-left">{{eventTime(event)}}</div>
+          <div class="p-2 ml-auto txt-right">{{eventCreated(event)}}</div>
+        </div>
+        <p class="card-text">
+          {{ event.summary }}
+        </p>
+        <p class="card-text" v-if="event.capacity > 0">
+          {{ soldTickets(event) }}/{{ event.capacity }}
+        </p>
+        <p class="card-text" v-else>No tickets listed</p>
+        <a :href="`#/events/${event.id}`" class="btn btn-primary">Open</a>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-
-import {mapGetters} from "vuex";
+import {eventTime, eventCreated, soldTickets} from "../helpers";
+import { mapGetters } from "vuex";
 export default {
   name: "Events",
   data() {
@@ -14,6 +36,11 @@ export default {
   },
   computed: {
     ...mapGetters(["events"]),
+  },
+  methods: {
+    eventTime,
+    eventCreated,
+    soldTickets
   },
 };
 </script>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 const endpoint = "http://localhost:8080";
 
 const getEndpoint = (url,state) => {
@@ -11,6 +12,27 @@ const getEndpoint = (url,state) => {
         }
     });
 };
+
+const soldTickets = event => {
+    let sold = 0;
+
+    event.ticket_classes.forEach(ticketClass=>{
+        sold += ticketClass.quantity_sold;
+    });
+
+    return sold;
+};
+const eventCreated = event => {
+    return moment(event.created).from();
+};
+
+const eventTime = event => {
+    return moment(event.start.utc).format("DD-MM-YYYY");
+};
+
 export  {
-    getEndpoint
+    getEndpoint,
+    eventTime,
+    soldTickets,
+    eventCreated
 };
