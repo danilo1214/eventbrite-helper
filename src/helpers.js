@@ -1,15 +1,21 @@
-import axios from "axios";
 import moment from "moment";
-const endpoint = "http://localhost:8080";
+import {HTTP} from "@ionic-native/http";
+const endpoint = "https://www.eventbriteapi.com/v3";
+// const endpoint = "http://localhost:8080"
+console.log(HTTP);
+
+
 
 const getEndpoint = (url,state) => {
+    console.log("??????");
     const {token} = state;
-    return axios.get(`${endpoint}${url}`, {
-        mode: 'no-cors',
+  
+    return HTTP.sendRequest(`${endpoint}${url}`, {
         headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        method: "get"
     });
 };
 

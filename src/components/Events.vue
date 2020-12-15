@@ -10,10 +10,10 @@
         <h5 class="card-title">{{ event.name.text }}</h5>
 
         <div class="d-flex">
-          <div class="p-2 txt-left">{{eventTime(event)}}</div>
-          <div class="p-2 ml-auto txt-right">{{eventCreated(event)}}</div>
+          <div class="txt-left">{{eventTime(event)}}</div>
+          <div class="ml-auto txt-right">{{eventCreated(event)}}</div>
         </div>
-        <p class="card-text">
+        <p class="card-text mt-3">
           {{ event.summary }}
         </p>
         <p class="card-text" v-if="event.capacity > 0">

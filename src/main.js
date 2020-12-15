@@ -16,6 +16,7 @@ Vue.use(VueRouter)
 Vue.use(ElementUI, {
   locale
 });
+
 new Vue({
   render: h => h(App),
   store,

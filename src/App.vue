@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-loading="!isLoaded">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
@@ -21,13 +21,14 @@
     </div>
   </div>
 </nav>
-    <router-view v-loading="!isLoaded"/>
+    <router-view />
     
   </div>
 </template>
 
 <script>
 import {mapActions} from "vuex";
+
 
 export default {
   name: 'App',
@@ -48,9 +49,13 @@ export default {
         this.isLogged = true;
         await this.loadOrganization();
         await this.loadEvents();
+
+        if(!this.$route.name){
+          this.$router.replace({name: "events"});
+        }
       }).catch(err=>{
+        console.log(JSON.stringify(err));
         this.isLogged = false;
-        console.log("Not authenticated",err);
         this.$router.replace({name: "login"});
         this.logout();
       });
@@ -68,12 +73,7 @@ export default {
     }
   },
   async created(){
-    const {$route} = this;
-    if($route.name === "oauth"){
-      const {token} = $route.params;
-      await this.login({token});
-      this.$router.replace({name: "events"});
-    }
+    
     this.init();
   }
 }
