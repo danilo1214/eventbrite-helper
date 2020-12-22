@@ -23,6 +23,15 @@
         <a :href="`#/events/${event.id}`" class="btn btn-primary">Open</a>
       </div>
     </div>
+  <el-button
+        id="newEventButton"
+        type="primary"
+        circle
+        small
+        @click="addNew"
+      >
+        <span class="fas fa-plus"></span>
+ </el-button>
   </div>
 </template>
 
@@ -40,10 +49,20 @@ export default {
   methods: {
     eventTime,
     eventCreated,
-    soldTickets
+    soldTickets,
+    addNew(){
+      this.$router.replace({name: "new-event"});
+    }
   },
 };
 </script>
 
 <style>
+#newEventButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px;
+  z-index: 400;
+}
 </style>
