@@ -64,6 +64,11 @@ export default (Vue) => {
                     console.log(err);
                 });
             },
+            createEvent: ({state}, {event}) => {
+                console.log(state);
+                
+                console.log(event);
+            },
             login({commit}, {token}) {
                 commit("APP_LOGIN", token);
                 console.log(`setting token ${token}`);

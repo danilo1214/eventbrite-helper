@@ -3,7 +3,7 @@
     <form>
       <div class="mb-3">
         <label for="eventName" class="form-label">Event Name</label>
-        <input v-model="event.name" class="form-control" id="eventName" />
+        <input v-model="event.name.html" class="form-control" id="eventName" />
       </div>
       <div class="mb-3">
         <label for="eventSummary" class="form-label">Summary</label>
@@ -11,7 +11,38 @@
       </div>
       <div class="mb-3">
         <label for="eventCap" class="form-label">Event Capacity</label>
-        <input v-model="event.capacity" type="number" class="form-control" id="eventCap" />
+        <input
+          v-model="event.capacity"
+          type="number"
+          class="form-control"
+          id="eventCap"
+        />
+      </div>
+      <div class="mb-3">
+        <el-date-picker
+          label="Date From"
+          v-model="fromDate"
+          type="datetime"
+          placeholder="Date From"
+        >
+        </el-date-picker>
+      </div>
+
+      <div class="mb-3">
+        <el-date-picker
+          label="Date To"
+          v-model="toDate"
+          type="datetime"
+          placeholder="Date To"
+        >
+        </el-date-picker>
+      </div>
+      <div class="mb-3">
+        <label for="cur" class="control-label"> Currency </label>
+        <select id="cur" v-model="event.currency" class="form-select">
+          <option value="EUR">EUR</option>
+          <option value="USD">USD</option>
+        </select>
       </div>
       <div class="form-check mb-3">
         <input
@@ -23,10 +54,10 @@
           checked
           aria-describedby="listed-help"
         />
-        <label class="form-check-label" for="isListed">
-          Listed
-        </label>
-    <div id="listed-help" class="form-text">Allows the Event to be publicly searchable on the Eventbrite website.</div>
+        <label class="form-check-label" for="isListed"> Listed </label>
+        <div id="listed-help" class="form-text">
+          Allows the Event to be publicly searchable on the Eventbrite website.
+        </div>
       </div>
 
       <button @click="submit" class="btn btn-primary">Submit</button>
@@ -35,36 +66,57 @@
 </template>
 
 <script>
+import moment from "moment";
+import {mapActions} from "vuex";
 export default {
   data() {
     return {
+      fromDate: null,
+      toDate: null,
       event: {
-        name: "",
+        name: {
+            html: ""
+        },
         summary: "",
         capacity: 2,
         listed: true,
-        
+
         start: {
-            timezone: "Europe/Ljubljana",
-            utc: null
+          timezone: "Europe/Ljubljana",
+          utc: null,
         },
         end: {
-            timezone: "Europe/Ljubljana",
-            utc: null
-        }
-      }
-    }
+          timezone: "Europe/Ljubljana",
+          utc: null,
+        },
+      },
+    };
   },
   methods: {
-      submit(){
-          console.log("xd");
-      }
+    ...mapActions(["createEvent"]),
+    async submit() {
+        const {event} = this;
+      await this.createEvent({
+          event
+      }).then(resp=>{
+          console.log(resp);
+          this.$router.replace({name: "events"});
+      }).catch(e=>{
+          console.log(e);
+      });
+    },
   },
-  watch:{
-      "event.capacity": function(val){
-          this.event.capacity = Number(val);
-      }
-  }
+  watch: {
+    "event.capacity": function (val) {
+      this.event.capacity = Number(val);
+    },
+    toDate: function (val) {
+      this.event.end.utc = moment(val).utc().format();
+    },
+    fromDate: function (val) {
+      this.event.start.utc = moment(val).utc().format();
+    },
+  },
 };
 </script>
 
