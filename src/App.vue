@@ -35,7 +35,7 @@ export default {
   data(){
     return {
       isLogged: true,
-      isLoaded: false,
+      isLoaded: true,
     }
   },
   methods:{
@@ -64,7 +64,7 @@ export default {
   },
   watch: {
     async $route(route){
-      this.init();
+      //this.init();
 
       if(route.name === "logout"){
       await this.logout();
@@ -74,7 +74,7 @@ export default {
   },
   async created(){
     
-    this.init();
+    //this.init();
   }
 }
 </script>

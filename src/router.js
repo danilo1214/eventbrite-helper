@@ -1,6 +1,7 @@
 import Router from 'vue-router';
 import Login from "./components/Login.vue";
 import Events from "./components/Events.vue";
+import NewEvent from "./components/NewEvent.vue";
 
 
 const routes = [
@@ -12,6 +13,11 @@ const routes = [
         name: "login",
         path: "/login",
         component: Login
+    },
+    {
+        name: "new-event",
+        path: "/events/new",
+        component: NewEvent
     },
     {
         name: "logout",
