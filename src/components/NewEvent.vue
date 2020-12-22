@@ -99,9 +99,10 @@ export default {
       await this.createEvent({
           event
       }).then(resp=>{
-          console.log(resp);
+          console.log(resp, "successss");
           this.$router.replace({name: "events"});
       }).catch(e=>{
+        console.log("shit error");
           console.log(e);
       });
     },

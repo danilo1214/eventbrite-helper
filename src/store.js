@@ -1,5 +1,5 @@
 import Vuex from "vuex";
-import {getEndpoint} from "./helpers";
+import {getEndpoint, postEndPoint} from "./helpers";
 
 
 
@@ -65,9 +65,15 @@ export default (Vue) => {
                 });
             },
             createEvent: ({state}, {event}) => {
-                console.log(state);
                 
-                console.log(event);
+                const {organizationId} = state;
+                return postEndPoint(`/organizations/${organizationId}/events/`, state, {event}).then(data=>{
+                    console.log(data);
+                }).catch(err=>{
+                    console.log("error ay");
+                    console.log(JSON.stringify(err));
+                });
+
             },
             login({commit}, {token}) {
                 commit("APP_LOGIN", token);

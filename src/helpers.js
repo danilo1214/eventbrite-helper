@@ -5,7 +5,20 @@ const endpoint = "https://www.eventbriteapi.com/v3";
 // const endpoint = "http://localhost:8080"
 
 
-
+const postEndPoint = (url, state, data) => {
+    const {token} = state;
+    HTTP.setDataSerializer("json");
+    return HTTP.sendRequest(`${endpoint}${url}`, {
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        data: {
+            ...data
+        },
+        method: "post"
+    });
+};
 const getEndpoint = (url,state) => {
     console.log("??????");
     const {token} = state;
@@ -45,5 +58,6 @@ export  {
     getEndpoint,
     eventTime,
     soldTickets,
-    eventCreated
+    eventCreated,
+    postEndPoint
 };
