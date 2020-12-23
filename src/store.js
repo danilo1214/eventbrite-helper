@@ -29,10 +29,11 @@ export default (Vue) => {
             events(state) {
                 return state.events;
             },
-            event: (state) => (id) => {
-                return state.movies.filter(movie => {
-                    return movie.id === id;
-                });
+            getEvent: (state) => (id) => {
+                return state.events.filter(event => {
+                    console.log(Number(event.id) === Number(id))
+                    return Number(event.id) === Number(id);
+                })[0];
             }
         },
         actions: {

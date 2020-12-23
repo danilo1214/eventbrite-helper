@@ -1,6 +1,7 @@
 import Router from 'vue-router';
 import Login from "./components/Login.vue";
 import Events from "./components/Events.vue";
+import Event from "./components/Event.vue";
 import NewEvent from "./components/NewEvent.vue";
 
 
@@ -16,7 +17,7 @@ const routes = [
     },
     {
         name: "new-event",
-        path: "/events/new",
+        path: "/new-event",
         component: NewEvent
     },
     {
@@ -27,6 +28,11 @@ const routes = [
         name: "events",
         path: "/events",
         component: Events
+    },
+    {
+        name: "events",
+        path: "/events/:id",
+        component: Event
     }
 ];
 
