@@ -59,7 +59,7 @@ export default (Vue) => {
             // eslint-disable-next-line no-unused-vars
             loadEvents: ({commit, state}) => {
                 const {organizationId} = state;
-                return getEndpoint(`/organizations/${organizationId}/events/?expand=ticket_classes`, state).then(response => {
+                return getEndpoint(`/organizations/${organizationId}/events/?expand=ticket_classes,venue`, state).then(response => {
                     commit('SET_EVENTS', JSON.parse(response.data).events);
                 }).catch(err => {
                     console.log(err);
