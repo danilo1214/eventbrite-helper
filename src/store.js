@@ -76,6 +76,18 @@ export default (Vue) => {
                 });
 
             },
+            createTicketClass: ({state}, {ticket_class, event}) => {
+                const cost = `${event.currency}:${ticket_class.cost}`;
+                ticket_class.cost = cost;
+                const {id} = event;
+                return postEndPoint(`/events/${id}/ticket_classes/`, state, {ticket_class}).then(data=>{
+                    console.log(data);
+                }).catch(err=>{
+                    console.log("error ay");
+                    console.log(JSON.stringify(err));
+                });
+
+            },
             login({commit}, {token}) {
                 commit("APP_LOGIN", token);
                 console.log(`setting token ${token}`);

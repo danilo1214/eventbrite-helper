@@ -3,6 +3,7 @@ import Login from "./components/Login.vue";
 import Events from "./components/Events.vue";
 import Event from "./components/Event.vue";
 import NewEvent from "./components/NewEvent.vue";
+import NewTicketClass from "./components/NewTicketClass.vue";
 
 
 const routes = [
@@ -30,9 +31,14 @@ const routes = [
         component: Events
     },
     {
-        name: "events",
+        name: "event",
         path: "/events/:id",
         component: Event
+    },
+    {
+        name: "ticket-class",
+        path: "/event/:id/class",
+        component: NewTicketClass
     }
 ];
 
