@@ -25,7 +25,7 @@
       <span class="text-primary fas fa-map-marker"></span>No address listed.
     </div>
     <h3>Tickets</h3>
-    <button @click="newClass" class="btn btn-primary">New</button>
+    <a :href="`#/events/${id}/class`" class="btn btn-primary">Open</a>
     <div v-for="ticket in event.ticket_classes" :key="ticket.id">
       <h4>{{ ticket.name }}</h4>
 
@@ -61,9 +61,6 @@ export default {
     eventCreated,
     onBack() {
       this.$router.push(".");
-    },
-    newClass(){
-      this.$router.push("./class");
     }
   },
 };

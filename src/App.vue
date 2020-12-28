@@ -64,6 +64,7 @@ export default {
   },
   watch: {
     async $route(route){
+      console.log(route);
       this.init();
 
       if(route.name === "logout"){

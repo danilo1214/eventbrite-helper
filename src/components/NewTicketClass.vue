@@ -62,14 +62,14 @@ export default {
   methods: {
     ...mapActions(["createTicketClass"]),
     async submit() {
-      const { ticket_class, event, id } = this;
-      await this.createClass({
+      const { ticket_class, event } = this;
+      await this.createTicketClass({
         ticket_class,
         event,
       })
         .then((resp) => {
           console.log(resp, "successss");
-          this.$router.replace({ name: "event", id });
+          this.$router.push(".");
         })
         .catch((e) => {
           console.log("shit error");
@@ -88,6 +88,9 @@ export default {
       this.ticket_class.cost = Number(val);
     },
   },
+  created(){
+    console.log("WHY CLOSINGGFGGg?gg?g?g?g?g?g?g?g?g?g?");
+  }
 };
 </script>
 
