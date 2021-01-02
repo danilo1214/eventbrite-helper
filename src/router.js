@@ -39,6 +39,11 @@ const routes = [
         name: "ticket-class",
         path: "/events/:id/class",
         component: NewTicketClass
+    },
+    {
+        name: "event-edit",
+        path: "/events/:id/edit",
+        component: NewEvent
     }
 ];
 

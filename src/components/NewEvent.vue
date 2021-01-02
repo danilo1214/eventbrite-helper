@@ -67,7 +67,7 @@
 
 <script>
 import moment from "moment";
-import {mapActions} from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -75,7 +75,7 @@ export default {
       toDate: null,
       event: {
         name: {
-            html: ""
+          html: "",
         },
         summary: "",
         capacity: 2,
@@ -93,21 +93,58 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["createEvent"]),
+    ...mapActions(["createEvent", "updateEvent"]),
     async submit() {
-        const {event} = this;
-      await this.createEvent({
-          event
-      }).then(resp=>{
-          console.log(resp, "successss");
-          this.$router.replace({name: "events"});
-      }).catch(e=>{
-        console.log("shit error");
-          console.log(e);
-      });
+      const { event, id } = this;
+      if (id) {
+        await this.updateEvent({ event, id })
+          .then(this.$router.push("."))
+          .catch((e) => {
+            console.log("shit error");
+            console.log(e);
+          });
+      } else {
+        await this.createEvent({
+          event,
+        })
+          .then((resp) => {
+            console.log(resp, "successss");
+            this.$router.replace({ name: "events" });
+          })
+          .catch((e) => {
+            console.log("shit error");
+            console.log(e);
+          });
+      }
+    },
+    async init() {
+      if (this.id) {
+        const event = await this.getEvent(this.id);
+        this.fromDate = event.start.utc;
+        this.toDate = event.end.utc;
+        this.event = {
+          name: {
+            html: event.name.html
+          },
+          summary: event.summary,
+          capacity: event.capacity,
+          listed: event.listed,
+          start: event.start,
+          end: event.end,
+        };
+      }
+    },
+  },
+  computed: {
+    ...mapGetters(["getEvent"]),
+    id() {
+      return this.$route.params.id;
     },
   },
   watch: {
+    $route() {
+      this.init();
+    },
     "event.capacity": function (val) {
       this.event.capacity = Number(val);
     },
@@ -117,6 +154,9 @@ export default {
     fromDate: function (val) {
       this.event.start.utc = moment(val).utc().format();
     },
+  },
+  created() {
+    this.init();
   },
 };
 </script>

@@ -76,6 +76,16 @@ export default (Vue) => {
                 });
 
             },
+            updateEvent: ({state}, {event, id}) => {
+                //TODO: delete event local
+                return postEndPoint(`/events/${id}/`, state, {event}).then(data=>{
+                    console.log(data);
+                }).catch(err=>{
+                    console.log("error ay");
+                    console.log(JSON.stringify(err));
+                });
+
+            },
             createTicketClass: ({state}, {ticket_class, event}) => {
                 const cost = `${event.currency}:${ticket_class.cost}`;
                 ticket_class.cost = cost;

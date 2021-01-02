@@ -1,6 +1,8 @@
 <template>
   <div class="container d-flex flex-column">
     <el-button @click="onBack" type="primary"> Back </el-button>
+        <a :href="`#/events/${id}/edit`" class="btn btn-primary">edit</a>
+
     <h2>{{ event.name.text }}</h2>
     <div class="pb-2 fs-5 text-primary">{{ eventCreated(event) }}</div>
     <p class="pb-2 lead">
