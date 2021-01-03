@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <el-button @click="onBack" type="primary"> Back </el-button>
+    <button class="btn btn-primary" @click="onBack"> Back </button>
 
     <div>
       <div class="mb-3">

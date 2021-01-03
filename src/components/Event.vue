@@ -1,6 +1,6 @@
 <template>
-  <div class="container d-flex flex-column">
-    <el-button @click="onBack" type="primary"> Back </el-button>
+  <div class="container d-flex flex-column pl-5">
+    <button @click="onBack" class="btn btn-primary"> Back </button>
         <a :href="`#/events/${id}/edit`" class="btn btn-primary">edit</a>
 
     <h2>{{ event.name.text }}</h2>
@@ -27,7 +27,7 @@
       <span class="text-primary fas fa-map-marker"></span>No address listed.
     </div>
     <h3>Tickets</h3>
-    <a :href="`#/events/${id}/class`" class="btn btn-primary">Open</a>
+    <a :href="`#/events/${id}/class`" class="btn btn-primary">New Ticket</a>
     <div v-for="ticket in event.ticket_classes" :key="ticket.id">
       <h4>{{ ticket.name }}</h4>
 

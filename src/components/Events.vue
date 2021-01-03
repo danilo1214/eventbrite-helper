@@ -2,7 +2,7 @@
   <div class="container">
     <input v-model="keywords" class="form-control" />
     <div
-      class="card"
+      class="card m-5"
       style="width: 18rem"
       :key="event.id"
       v-for="event in eventsFiltered"

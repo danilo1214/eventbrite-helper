@@ -128,6 +128,7 @@ export default {
           },
           summary: event.summary,
           capacity: event.capacity,
+          currency: event.currency,
           listed: event.listed,
           start: event.start,
           end: event.end,

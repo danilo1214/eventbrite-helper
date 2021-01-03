@@ -78,6 +78,8 @@ export default (Vue) => {
             },
             updateEvent: ({state}, {event, id}) => {
                 //TODO: delete event local
+                delete event.start.local;
+                delete event.end.local;
                 return postEndPoint(`/events/${id}/`, state, {event}).then(data=>{
                     console.log(data);
                 }).catch(err=>{
