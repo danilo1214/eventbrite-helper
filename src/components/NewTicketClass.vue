@@ -72,7 +72,7 @@ export default {
           this.$router.push(".");
         })
         .catch((e) => {
-          console.log("shit error");
+          console.log("error");
           console.log(e);
         });
     },

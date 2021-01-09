@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <form>
+    <div>
       <div class="mb-3">
         <label for="eventName" class="form-label">Event Name</label>
         <input v-model="event.name.html" class="form-control" id="eventName" />
@@ -61,7 +61,7 @@
       </div>
 
       <button @click="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </div>
   </div>
 </template>
 

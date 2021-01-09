@@ -80,7 +80,6 @@ export default (Vue) => {
                 return postEndPoint(`/organizations/${organizationId}/events/`, state, { event }).then(data => {
                     console.log(data);
                 }).catch(err => {
-                    console.log("error ay");
                     console.log(JSON.stringify(err));
                 });
 
@@ -92,7 +91,6 @@ export default (Vue) => {
                 return postEndPoint(`/events/${id}/`, state, { event }).then(data => {
                     console.log(data);
                 }).catch(err => {
-                    console.log("error ay");
                     console.log(JSON.stringify(err));
                 });
 
@@ -104,7 +102,6 @@ export default (Vue) => {
                 return postEndPoint(`/events/${id}/ticket_classes/`, state, { ticket_class }).then(data => {
                     console.log(data);
                 }).catch(err => {
-                    console.log("error ay");
                     console.log(JSON.stringify(err));
                 });
 

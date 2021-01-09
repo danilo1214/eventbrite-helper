@@ -1,7 +1,9 @@
 <template>
   <div class="container d-flex flex-column pl-1">
-    <button @click="onBack" class="btn btn-primary"> Back </button>
-        <a :href="`#/events/${id}/edit`" class="btn btn-primary">edit</a>
+    <button @click="onBack" class="btn btn-primary">Back</button>
+    <button @click="onDelete" class="btn btn-danger">Delete</button>
+
+    <a :href="`#/events/${id}/edit`" class="btn btn-primary">Edit</a>
 
     <h2>{{ event.name.text }}</h2>
     <div class="pb-2 fs-5 text-primary">{{ eventCreated(event) }}</div>
@@ -60,16 +62,21 @@ export default {
   },
   methods: {
     ...mapActions(["deleteEvent"]),
-    async onDelete(){
-      const {id} = this;
-      await this.deleteEvent({id});
-      this.$router.replace({name: "events"})
+    async onDelete() {
+      const { id } = this;
+      await this.deleteEvent({ id });
+      this.$message({
+        showClose: true,
+        message: "Successfuly deleted event.",
+        type: "success",
+      });
+      this.$router.replace({ name: "events" });
     },
     eventTime,
     eventCreated,
     onBack() {
       this.$router.push(".");
-    }
+    },
   },
 };
 </script>
