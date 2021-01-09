@@ -1,5 +1,5 @@
 <template>
-  <div class="container d-flex flex-column pl-5">
+  <div class="container d-flex flex-column pl-1">
     <button @click="onBack" class="btn btn-primary"> Back </button>
         <a :href="`#/events/${id}/edit`" class="btn btn-primary">edit</a>
 
@@ -31,7 +31,7 @@
     <div v-for="ticket in event.ticket_classes" :key="ticket.id">
       <h4>{{ ticket.name }}</h4>
 
-      <div class="d-flex">
+      <div class="d-flex justify-content-around">
         <div>Capacity: {{ ticket.quantity_total }}</div>
         <div>Sold: {{ ticket.quantity_sold }}</div>
         <div>Price: {{ ticket.cost.value }}</div>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import { eventTime, eventCreated } from "../helpers";
 
 export default {
@@ -59,6 +59,12 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["deleteEvent"]),
+    async onDelete(){
+      const {id} = this;
+      await this.deleteEvent({id});
+      this.$router.replace({name: "events"})
+    },
     eventTime,
     eventCreated,
     onBack() {

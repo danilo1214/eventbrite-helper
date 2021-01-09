@@ -1,5 +1,5 @@
 import Vuex from "vuex";
-import {getEndpoint, postEndPoint} from "./helpers";
+import { getEndpoint, postEndPoint, deleteEndpoint } from "./helpers";
 
 
 
@@ -18,12 +18,12 @@ export default (Vue) => {
             SET_EVENTS(state, value) {
                 state.events = value;
             },
-            SET_ORGANIZATION(state,value){
+            SET_ORGANIZATION(state, value) {
                 state.organizationId = value;
             }
         },
         getters: {
-            token(state){
+            token(state) {
                 return state.token;
             },
             events(state) {
@@ -37,70 +37,79 @@ export default (Vue) => {
             }
         },
         actions: {
-            logout: ({commit}) => {
-              commit('APP_LOGIN', null);
-              localStorage.removeItem("eventbrite_token");
+            logout: ({ commit }) => {
+                commit('APP_LOGIN', null);
+                localStorage.removeItem("eventbrite_token");
             },
-            loadOrganization: ({commit,state}) => {
-                return getEndpoint(`/users/me/organizations`, state).then(response=>{
-                    let {data} = response;
+            loadOrganization: ({ commit, state }) => {
+                return getEndpoint(`/users/me/organizations`, state).then(response => {
+                    let { data } = response;
                     data = JSON.parse(data);
-                    if(data.organizations){
+                    if (data.organizations) {
                         commit("SET_ORGANIZATION", data.organizations[0].id);
                     }
-                }); 
+                });
             },
-            auth: async ({commit,state}) => {
+            auth: async ({ commit, state }) => {
                 const token = await localStorage.getItem("eventbrite_token");
                 console.log(`authin with ${token}`);
-                commit("APP_LOGIN",token);
+                commit("APP_LOGIN", token);
                 return getEndpoint(`/users/me`, state);
             },
             // eslint-disable-next-line no-unused-vars
-            loadEvents: ({commit, state}) => {
-                const {organizationId} = state;
+            loadEvents: ({ commit, state }) => {
+                const { organizationId } = state;
                 return getEndpoint(`/organizations/${organizationId}/events/?expand=ticket_classes,venue`, state).then(response => {
                     commit('SET_EVENTS', JSON.parse(response.data).events);
                 }).catch(err => {
                     console.log(err);
                 });
             },
-            createEvent: ({state}, {event}) => {
-                
-                const {organizationId} = state;
-                return postEndPoint(`/organizations/${organizationId}/events/`, state, {event}).then(data=>{
+            deleteEvent: ({ state }, { id }) => {
+
+                return deleteEndpoint(`/events/${id}/`, state).then(data => {
                     console.log(data);
-                }).catch(err=>{
+                }).catch(err => {
+                    console.log("error");
+                    console.log(JSON.stringify(err));
+                });
+            },
+            createEvent: ({ state }, { event }) => {
+
+                const { organizationId } = state;
+                return postEndPoint(`/organizations/${organizationId}/events/`, state, { event }).then(data => {
+                    console.log(data);
+                }).catch(err => {
                     console.log("error ay");
                     console.log(JSON.stringify(err));
                 });
 
             },
-            updateEvent: ({state}, {event, id}) => {
+            updateEvent: ({ state }, { event, id }) => {
                 //TODO: delete event local
                 delete event.start.local;
                 delete event.end.local;
-                return postEndPoint(`/events/${id}/`, state, {event}).then(data=>{
+                return postEndPoint(`/events/${id}/`, state, { event }).then(data => {
                     console.log(data);
-                }).catch(err=>{
+                }).catch(err => {
                     console.log("error ay");
                     console.log(JSON.stringify(err));
                 });
 
             },
-            createTicketClass: ({state}, {ticket_class, event}) => {
+            createTicketClass: ({ state }, { ticket_class, event }) => {
                 const cost = `${event.currency}:${ticket_class.cost}`;
                 ticket_class.cost = cost;
-                const {id} = event;
-                return postEndPoint(`/events/${id}/ticket_classes/`, state, {ticket_class}).then(data=>{
+                const { id } = event;
+                return postEndPoint(`/events/${id}/ticket_classes/`, state, { ticket_class }).then(data => {
                     console.log(data);
-                }).catch(err=>{
+                }).catch(err => {
                     console.log("error ay");
                     console.log(JSON.stringify(err));
                 });
 
             },
-            login({commit}, {token}) {
+            login({ commit }, { token }) {
                 commit("APP_LOGIN", token);
                 console.log(`setting token ${token}`);
                 localStorage.setItem("eventbrite_token", token);

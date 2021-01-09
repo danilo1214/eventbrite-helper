@@ -19,6 +19,15 @@ const postEndPoint = (url, state, data) => {
         method: "post"
     });
 };
+const deleteEndpoint = (url, state) => {
+    const {token} = state;
+    return HTTP.sendRequest(`${endpoint}${url}`, {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+        method: "delete"
+    });
+};
 const getEndpoint = (url,state) => {
     console.log("??????");
     const {token} = state;
@@ -59,5 +68,6 @@ export  {
     eventTime,
     soldTickets,
     eventCreated,
-    postEndPoint
+    postEndPoint,
+    deleteEndpoint
 };

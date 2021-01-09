@@ -94,13 +94,54 @@ export default {
   },
   methods: {
     ...mapActions(["createEvent", "updateEvent"]),
+    error(message) {
+      this.$message({
+        showClose: true,
+        message,
+        type: "error",
+      });
+    },
+    validate(event) {
+      if(!event){
+        return false;
+      }
+      if(!event.currency || event.currency.length === 0){
+        this.error("Please select a currency");
+        return false;
+      }
+      if(!event.name || !event.name.html || event.name.html.length === 0){
+        this.error("Please enter a name for the event.");
+        return false;
+      }
+      if(!event.start || !event.start.utc || event.start.utc.length === 0){
+        this.error("Please enter a start date for the event.");
+        return false;
+      }
+      if(!event.end || !event.end.utc || event.end.utc.length === 0){
+        this.error("Please enter a end date for the event.");
+        return false;
+      }
+     
+      const startDate = event.start.utc;
+      const endDate = event.end.utc;
+
+
+      if(moment(endDate).isBefore(startDate)){
+        this.error("The start date must be before the end date.");
+        return false;
+      }
+
+      return true;
+    },
     async submit() {
       const { event, id } = this;
+      if (!this.validate(event)) {
+        return;
+      }
       if (id) {
         await this.updateEvent({ event, id })
           .then(this.$router.push("."))
           .catch((e) => {
-            console.log("shit error");
             console.log(e);
           });
       } else {
@@ -112,7 +153,6 @@ export default {
             this.$router.replace({ name: "events" });
           })
           .catch((e) => {
-            console.log("shit error");
             console.log(e);
           });
       }
@@ -124,7 +164,7 @@ export default {
         this.toDate = event.end.utc;
         this.event = {
           name: {
-            html: event.name.html
+            html: event.name.html,
           },
           summary: event.summary,
           capacity: event.capacity,
